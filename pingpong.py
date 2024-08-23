@@ -8,7 +8,6 @@ pg.font.init()
 #Window variables
 screen_width = 800
 screen_height = 500
-screen_middle = (screen_width//2-ball_width//2, screen_height//2 - ball_height//2)
 win = pg.display.set_mode((screen_width, screen_height))
 pg.display.set_caption('Ping Pong')
 
@@ -19,6 +18,8 @@ BLACK = (0,0,0)
 
 ball_width = 20
 ball_height = 20
+
+screen_middle = (screen_width//2-ball_width//2, screen_height//2 - ball_height//2)
 
 paddle_width = 20
 paddle_height = 100
