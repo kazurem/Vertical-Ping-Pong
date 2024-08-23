@@ -1,0 +1,7 @@
+
+
+git status (show information)
+git init --> initialize git repository
+git add <filename> --> adds a file to a staging area(not yet committed)
+git checkout -b branch-name --> change to the branch named branch-name(if it does not exist, create it)
+git checkout master --> change to master branch

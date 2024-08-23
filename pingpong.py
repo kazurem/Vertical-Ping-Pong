@@ -6,7 +6,7 @@ pg.init()
 pg.font.init()
 
 screen_width = 800
-screen_height = 500
+screen_height = 700
 window = pg.display.set_mode((screen_width, screen_height))
 pg.display.set_caption('Ping Pong')
 
@@ -20,14 +20,17 @@ ball_height = 20
 
 screen_middle = (screen_width//2-ball_width//2, screen_height//2 - ball_height//2)
 
-paddle_width = 20
-paddle_height = 100
+paddle_width = 100
+paddle_height = 20
+paddle_xpos = screen_width//2 - paddle_width//2
+upper_paddle_ypos = 50
+lower_paddle_ypos = 650
 
-left_player_score = 0
-right_player_score = 0
+upper_player_score = 0
+lower_player_score = 0
 
-left_player_score_font = pg.font.SysFont('comicsans', 50)
-right_player_score_font = pg.font.SysFont('comicsans', 50)
+upper_player_score_font = pg.font.SysFont('comicsans', 30)
+lower_player_score_font = pg.font.SysFont('comicsans', 30)
 winner_font = pg.font.SysFont('comicsans', 70)
 
 
@@ -44,32 +47,32 @@ class Ball(pg.sprite.Sprite):
         self.ball_rect = self.ball_surface.get_rect(topleft=(x, y))
         
         
-    def update(self, left_player_score: int, right_player_score: int):
+    def update(self, upper_player_score: int, lower_player_score: int):
         #Update the ball's x and y coordinates
         self.ball_rect.x += self.velocity[0]
         self.ball_rect.y += self.velocity[1]
 
         #ball crosses the right boundary of the window
-        if self.ball_rect.right >= screen_width:
-            left_player_score += 1
+        if self.ball_rect.top <= 0:
+            lower_player_score += 1
             self.ball_rect.x = screen_middle[0]
             self.ball_rect.y = screen_middle[1]
             
         #ball crosses the right boundary of the window
-        elif self.ball_rect.left <= 0:
-            right_player_score += 1
+        elif self.ball_rect.bottom >= screen_height:
+            upper_player_score += 1
             self.ball_rect.x = screen_middle[0]
             self.ball_rect.y = screen_middle[1]
             
         #ball crosses the upper boundary of the window
-        elif self.ball_rect.top <= 0:
-            self.velocity[1] = -self.velocity[1]
+        elif self.ball_rect.right >= screen_width:
+            self.velocity[0] = -self.velocity[0]
 
         #ball crosses the lower boundary of the window
-        elif self.ball_rect.bottom >= screen_height:
-            self.velocity[1] = -self.velocity[1]
+        elif self.ball_rect.left <= 0:
+            self.velocity[0] = -self.velocity[0]
             
-        return left_player_score, right_player_score
+        return upper_player_score, lower_player_score
         
         
         
@@ -89,31 +92,31 @@ class Paddle(pg.sprite.Sprite):
         
     def update(self, key_pressed, ball: Ball):
 
-        #For left paddle
-        if key_pressed[pg.K_w] and self.paddle_rect.top > 0 and self.identity == 'left':
-            self.paddle_rect.y -= self.velocity
+        #For upper paddle
+        if key_pressed[pg.K_a] and self.paddle_rect.left > 0 and self.identity == 'upper':
+            self.paddle_rect.x -= self.velocity
             
-        elif key_pressed[pg.K_s] and self.paddle_rect.bottom < screen_height and self.identity == 'left':
-            self.paddle_rect.y += self.velocity
+        elif key_pressed[pg.K_d] and self.paddle_rect.right < screen_width and self.identity == 'upper':
+            self.paddle_rect.x += self.velocity
 
-        #For right paddle
-        elif key_pressed[pg.K_UP] and self.paddle_rect.top > 0 and self.identity == 'right':
-            self.paddle_rect.y -= self.velocity
+        #For lower paddle
+        elif key_pressed[pg.K_LEFT] and self.paddle_rect.left > 0 and self.identity == 'lower':
+            self.paddle_rect.x -= self.velocity
             
         
-        elif key_pressed[pg.K_DOWN] and self.paddle_rect.bottom < screen_height and self.identity == 'right':
-            self.paddle_rect.y += self.velocity
+        elif key_pressed[pg.K_RIGHT] and self.paddle_rect.right < screen_width and self.identity == 'lower':
+            self.paddle_rect.x += self.velocity
             
             
         #Collision of ball with the paddle
         if self.paddle_rect.colliderect(ball.ball_rect):
-            ball.velocity[0] = -ball.velocity[0]
+            ball.velocity[1] = -ball.velocity[1]
             
 
             
             
 
-def draw_on_window(window, ball: Ball, paddle_left: Paddle, paddle_right: Paddle, left_player_score: int, right_player_score: int, winner=None,time_sleep=0):
+def draw_on_window(window, ball: Ball, paddle_left: Paddle, paddle_right: Paddle, upper_player_score: int, lower_player_score: int, winner=None,time_sleep=0):
     
     #To refresh the display each loop
     window.fill(BLACK)
@@ -124,14 +127,14 @@ def draw_on_window(window, ball: Ball, paddle_left: Paddle, paddle_right: Paddle
     window.blit(paddle_right.paddle_surface, (paddle_right.paddle_rect.x,paddle_right.paddle_rect.y))
 
     #Draw the middle line
-    pg.draw.line(window, WHITE, (screen_width//2, 0), (screen_width//2, screen_height))
+    pg.draw.line(window, WHITE, (0, screen_height//2), (screen_width, screen_height//2))
 
     
-    player_left_score_text = left_player_score_font.render(f"{left_player_score}", 1, WHITE)
-    player_right_score_text = right_player_score_font.render(f"{right_player_score}", 1, WHITE)
+    player_left_score_text = upper_player_score_font.render(f"{upper_player_score}", 1, WHITE)
+    player_right_score_text = lower_player_score_font.render(f"{lower_player_score}", 1, WHITE)
     
-    window.blit(player_left_score_text, (80, 20))
-    window.blit(player_right_score_text, (720, 20))
+    window.blit(player_left_score_text, (20, 20))
+    window.blit(player_right_score_text, (20, 680))
 
     
     winner_text = winner_font.render(f"{winner}", 1, WHITE)
@@ -142,31 +145,31 @@ def draw_on_window(window, ball: Ball, paddle_left: Paddle, paddle_right: Paddle
     
     
 
-def reset_game(ball: Ball, paddle_left: Paddle, paddle_right: Paddle, left_player_score: int, right_player_score: int):
+def reset_game(ball: Ball, lower_paddle: Paddle, upper_paddle: Paddle, upper_player_score: int, lower_player_score: int):
     ball.ball_rect.x = screen_middle[0]
     ball.ball_rect.y = screen_middle[1]
     
-    paddle_left.paddle_rect.x = 50
-    paddle_left.paddle_rect.y = screen_height//2-paddle_height//2
-    paddle_right.paddle_rect.x = 750
-    paddle_right.paddle_rect.y = screen_height//2-paddle_height//2
+    lower_paddle.paddle_rect.x = paddle_xpos
+    lower_paddle.paddle_rect.y = lower_paddle_ypos
+    upper_paddle.paddle_rect.x = paddle_xpos
+    upper_paddle.paddle_rect.y = upper_paddle_ypos
     
-    left_player_score = 0
-    right_player_score = 0
+    upper_player_score = 0
+    lower_player_score = 0
     
     game_over = False
     winner = None
     
-    return ball.ball_rect.x, ball.ball_rect.y, paddle_left.paddle_rect.x, paddle_left.paddle_rect.y, paddle_right.paddle_rect.x, paddle_right.paddle_rect.y, left_player_score, right_player_score, game_over, winner
+    return ball.ball_rect.x, ball.ball_rect.y, lower_paddle.paddle_rect.x, lower_paddle.paddle_rect.y, upper_paddle.paddle_rect.x, upper_paddle.paddle_rect.y, upper_player_score, lower_player_score, game_over, winner
     
 
 
-def main(left_player_score, right_player_score):
+def main(upper_player_score, lower_player_score):
 
     #Making ball and paddle instances
     ball = Ball(screen_width//2-ball_width//2, screen_height//2-ball_height//2, 5)
-    paddle_left = Paddle(50, screen_height//2-paddle_height//2, 10, 'left')
-    paddle_right = Paddle(750, screen_height//2-paddle_height//2, 10, 'right')
+    upper_paddle = Paddle(x=paddle_xpos, y=upper_paddle_ypos, velocity=10, identity='upper')
+    lower_paddle = Paddle(x=paddle_xpos, y=lower_paddle_ypos, velocity=10, identity='lower')
     
     #Game's statuses
     is_updating = False
@@ -194,32 +197,32 @@ def main(left_player_score, right_player_score):
         if is_updating == True and game_over == False:
             key_pressed = pg.key.get_pressed()
             
-            paddle_left.update(key_pressed, ball)
-            paddle_right.update(key_pressed, ball)
+            upper_paddle.update(key_pressed, ball)
+            lower_paddle.update(key_pressed, ball)
             
-            left_player_score, right_player_score = ball.update(left_player_score, right_player_score)
+            upper_player_score, lower_player_score = ball.update(upper_player_score, lower_player_score)
             
             #Win conditions
-            if left_player_score == 5:
+            if upper_player_score == 5:
                 winner = "Left Player Wins"
                 is_updating = False
                 game_over = True
                 
-            elif right_player_score == 5:
+            elif lower_player_score == 5:
                 winner = 'Right Player Wins'
                 is_updating = False
                 game_over = True
 
             #Reset game variables
             if game_over == True:
-                ball.ball_rect.x, ball.ball_rect.y, paddle_left.paddle_rect.x,paddle_left.paddle_rect.y,paddle_right.paddle_rect.x, paddle_right.paddle_rect.y, left_player_score, right_player_score, game_over, winner = reset_game(ball, paddle_left, paddle_right, left_player_score,right_player_score)
+                ball.ball_rect.x, ball.ball_rect.y, lower_paddle.paddle_rect.x,lower_paddle.paddle_rect.y,upper_paddle.paddle_rect.x, upper_paddle.paddle_rect.y, upper_player_score, lower_player_score, game_over, winner = reset_game(ball, upper_paddle, lower_paddle, upper_player_score,lower_player_score)
             
             
-        draw_on_window(window, ball, paddle_left, paddle_right, left_player_score, right_player_score)
+        draw_on_window(window, ball, upper_paddle, lower_paddle, upper_player_score, lower_player_score)
         
 
 
 if __name__ == '__main__':
-    main(left_player_score, right_player_score)
+    main(upper_player_score, lower_player_score)
 
 pg.quit()
