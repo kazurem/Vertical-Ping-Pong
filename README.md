@@ -15,6 +15,6 @@ Objectives:
 6. change the assets:
     1. the ball should be some kind of bomb
     2. the paddles are going to be somekind of spaceships
-    3. Add a space background
+    3. Add a space background(Done)
 7. If you have free time, add some audio too.
 
