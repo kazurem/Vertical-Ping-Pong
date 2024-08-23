@@ -1,4 +1,4 @@
-# Modified-Ping-Pong
+# Modified-Ping-Pong(Using pygame)
 My first ever repository!!
 
 Description: Creating a Modified version of the classic Ping Pong Game
