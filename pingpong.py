@@ -33,6 +33,8 @@ upper_player_score_font = pg.font.SysFont('comicsans', 30)
 lower_player_score_font = pg.font.SysFont('comicsans', 30)
 winner_font = pg.font.SysFont('comicsans', 70)
 
+background_img = pg.image.load('./assets/background/Space Background.png')
+
 
 
 class Ball(pg.sprite.Sprite):
@@ -119,8 +121,8 @@ class Paddle(pg.sprite.Sprite):
 def draw_on_window(window, ball: Ball, paddle_left: Paddle, paddle_right: Paddle, upper_player_score: int, lower_player_score: int, winner=None,time_sleep=0):
     
     #To refresh the display each loop
-    window.fill(BLACK)
-
+    window.blit(background_img, (0, 0))
+    
     #Drawing the ball and paddles
     window.blit(ball.ball_surface, (ball.ball_rect.x, ball.ball_rect.y))
     window.blit(paddle_left.paddle_surface, (paddle_left.paddle_rect.x,paddle_left.paddle_rect.y))
