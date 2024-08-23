@@ -5,7 +5,6 @@ import time
 pg.init()
 pg.font.init()
 
-print('hello world')
 screen_width = 800
 screen_height = 500
 window = pg.display.set_mode((screen_width, screen_height))
