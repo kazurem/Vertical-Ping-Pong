@@ -5,7 +5,7 @@ import time
 pg.init()
 pg.font.init()
 
-#Window variables
+
 screen_width = 800
 screen_height = 500
 win = pg.display.set_mode((screen_width, screen_height))
@@ -91,17 +91,18 @@ class Paddle(pg.sprite.Sprite):
     def update(self, key_pressed, ball: Ball):
 
         #For left paddle
-        if (key_pressed[pg.K_w] and self.paddle_rect.top > 0) and (self.identity == 'left'):
+        if key_pressed[pg.K_w] and self.paddle_rect.top > 0 and self.identity == 'left':
             self.paddle_rect.y -= self.velocity
             
-        elif (key_pressed[pg.K_s] and self.paddle_rect.bottom) < screen_height and (self.identity == 'left'):
+        elif key_pressed[pg.K_s] and self.paddle_rect.bottom < screen_height and self.identity == 'left':
             self.paddle_rect.y += self.velocity
 
         #For right paddle
-        elif (key_pressed[pg.K_UP] and self.paddle_rect.top) > 0 and (self.identity == 'right'):
+        elif key_pressed[pg.K_UP] and self.paddle_rect.top > 0 and self.identity == 'right':
             self.paddle_rect.y -= self.velocity
             
-        elif (key_pressed[pg.K_DOWN] and self.paddle_rect.bottom) < screen_height and (self.identity == 'right'):
+        
+        elif key_pressed[pg.K_DOWN] and self.paddle_rect.bottom < screen_height and self.identity == 'right':
             self.paddle_rect.y += self.velocity
             
             
