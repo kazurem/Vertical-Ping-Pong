@@ -1,7 +1,7 @@
 #Ping Pong Game
 import pygame as pg
 import time
-
+print('hello world')
 pg.init()
 pg.font.init()
 
