@@ -26,6 +26,10 @@ paddle_xpos = screen_width//2 - paddle_width//2
 upper_paddle_ypos = 50
 lower_paddle_ypos = 650
 
+lower_paddle_img = pg.transform.scale(pg.image.load('./assets/paddle/lower_paddle.png'), (paddle_width, paddle_height*4))
+upper_paddle_img = pg.transform.scale(pg.image.load('./assets/paddle/upper_paddle.png'), (paddle_width, paddle_height*4))
+
+
 upper_player_score = 0
 lower_player_score = 0
 
@@ -87,9 +91,11 @@ class Paddle(pg.sprite.Sprite):
         self.velocity = velocity
         self.identity = identity #left paddle or right paddle
         
-        self.paddle_surface = pg.Surface((paddle_width, paddle_height))
-        self.paddle_surface.fill(WHITE)
-        self.paddle_rect = self.paddle_surface.get_rect(topleft=(x, y))
+        if self.identity == 'upper':
+            self.paddle_img = upper_paddle_img
+        elif self.identity == 'lower':
+            self.paddle_img = lower_paddle_img
+        self.paddle_rect = self.paddle_img.get_rect(topleft=(x, y))
         
         
     def update(self, key_pressed, ball: Ball):
@@ -125,8 +131,8 @@ def draw_on_window(window, ball: Ball, paddle_left: Paddle, paddle_right: Paddle
     
     #Drawing the ball and paddles
     window.blit(ball.ball_surface, (ball.ball_rect.x, ball.ball_rect.y))
-    window.blit(paddle_left.paddle_surface, (paddle_left.paddle_rect.x,paddle_left.paddle_rect.y))
-    window.blit(paddle_right.paddle_surface, (paddle_right.paddle_rect.x,paddle_right.paddle_rect.y))
+    window.blit(paddle_left.paddle_img, (paddle_left.paddle_rect.x,paddle_left.paddle_rect.y))
+    window.blit(paddle_right.paddle_img, (paddle_right.paddle_rect.x,paddle_right.paddle_rect.y))
 
     #Draw the middle line
     pg.draw.line(window, WHITE, (0, screen_height//2), (screen_width, screen_height//2))
