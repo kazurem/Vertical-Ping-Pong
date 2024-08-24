@@ -169,7 +169,7 @@ def reset_game(ball: Ball, lower_paddle: Paddle, upper_paddle: Paddle, upper_pla
 def main(upper_player_score, lower_player_score):
 
     #Making ball and paddle instances
-    ball = Ball(screen_width//2-ball_width//2, screen_height//2-ball_height//2, 5)
+    ball = Ball(screen_middle[0], screen_middle[1], 5)
     upper_paddle = Paddle(x=paddle_xpos, y=upper_paddle_ypos, velocity=10, identity='upper')
     lower_paddle = Paddle(x=paddle_xpos, y=lower_paddle_ypos, velocity=10, identity='lower')
     
