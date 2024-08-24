@@ -1,4 +1,4 @@
-# Modified-Ping-Pong(Using pygame)
+# Vertical-Ping-Pong(Using pygame)
 My first ever repository!!  
 (this will be my attempt at getting better at making games)
 
