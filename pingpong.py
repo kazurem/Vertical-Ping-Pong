@@ -40,6 +40,7 @@ lower_player_score = 0
 upper_player_score_font = pg.font.SysFont('comicsans', 30)
 lower_player_score_font = pg.font.SysFont('comicsans', 30)
 winner_font = pg.font.SysFont('comicsans', 70)
+instructions_font = pg.font.SysFont('comicsans', 50)
 
 background_img = pg.image.load('./assets/background/Space Background.png')
 
@@ -126,7 +127,7 @@ class Paddle(pg.sprite.Sprite):
             
             
 
-def draw_on_window(window, ball: Ball, lower_paddle: Paddle, upper_paddle: Paddle, upper_player_score: int, lower_player_score: int, winner=None,time_sleep=0):
+def draw_on_window(window, ball: Ball, lower_paddle: Paddle, upper_paddle: Paddle, upper_player_score: int, lower_player_score: int,  is_updating: bool, game_over: bool, winner: str):
     
     #To refresh the display each loop
     window.blit(background_img, (0, 0))
@@ -141,23 +142,29 @@ def draw_on_window(window, ball: Ball, lower_paddle: Paddle, upper_paddle: Paddl
     #Draw the middle line
     pg.draw.line(window, WHITE, (0, screen_height//2), (screen_width, screen_height//2))
     
-    
+    #Displaying the player scores on the window
     player_left_score_text = upper_player_score_font.render(f"{upper_player_score}", 1, WHITE)
     player_right_score_text = lower_player_score_font.render(f"{lower_player_score}", 1, WHITE)
     
     window.blit(player_left_score_text, (20, 20))
     window.blit(player_right_score_text, (20, 680))
-
     
-    winner_text = winner_font.render(f"{winner}", 1, WHITE)
-    if winner != None:
-        window.blit(winner_text, (screen_width//2 - winner_text.get_width()//2, screen_height//2 - winner_text.get_height()//2))
+    # displaying instructions
+    if is_updating == False:
+        instructions_text = instructions_font.render("Press 'Enter' to start the game.", 1, WHITE)
+        window.blit(instructions_text, (screen_width//2-instructions_text.get_width()//2, screen_height//2-instructions_text.get_width()//2))
         
+    if is_updating == False and game_over == True:
+        winner_text = winner_font.render(f"{winner} Wins!", 1, WHITE)
+        window.blit(winner_text, (screen_width//2 - winner_text.get_width()//2, screen_height//2 - winner_text.get_height()//2))
+        pg.display.update()
+    
+    
     pg.display.update()
     
     
 
-def reset_game(ball: Ball, lower_paddle: Paddle, upper_paddle: Paddle, upper_player_score: int, lower_player_score: int):
+def reset_game(ball: Ball, lower_paddle: Paddle, upper_paddle: Paddle, upper_player_score: int, lower_player_score: int, winner: str, time_to_display_winner):
     ball.ball_rect.x = screen_middle[0]
     ball.ball_rect.y = screen_middle[1]
     
@@ -172,9 +179,16 @@ def reset_game(ball: Ball, lower_paddle: Paddle, upper_paddle: Paddle, upper_pla
     game_over = False
     winner = None
     
-    return ball.ball_rect.x, ball.ball_rect.y, lower_paddle.paddle_rect.x, lower_paddle.paddle_rect.y, upper_paddle.paddle_rect.x, upper_paddle.paddle_rect.y, upper_player_score, lower_player_score, game_over, winner
+    time_to_display_winner = 120
     
-
+    return ball.ball_rect.x, ball.ball_rect.y, lower_paddle.paddle_rect.x, lower_paddle.paddle_rect.y, upper_paddle.paddle_rect.x, upper_paddle.paddle_rect.y, upper_player_score, lower_player_score, game_over, winner, time_to_display_winner
+    
+    
+def display_winner(winner):
+    winner_text = winner_font.render(f"{winner} Wins!", 1, WHITE)
+    window.blit(winner_text, (screen_width//2 - winner_text.get_width()//2, screen_height//2 - winner_text.get_height()//2))
+    pg.display.update()
+    
 
 def main(upper_player_score, lower_player_score):
 
@@ -182,11 +196,13 @@ def main(upper_player_score, lower_player_score):
     ball = Ball(screen_middle[0], screen_middle[1], 5)
     upper_paddle = Paddle(x=paddle_xpos, y=upper_paddle_ypos, velocity=10, identity='upper')
     lower_paddle = Paddle(x=paddle_xpos, y=lower_paddle_ypos, velocity=10, identity='lower')
+    time_to_display_winner = 120
     
     #Game's statuses
     is_updating = False
     game_over = False
     run = True
+    winner = None
     
     clock = pg.time.Clock()
     
@@ -217,21 +233,22 @@ def main(upper_player_score, lower_player_score):
             
             #Win conditions
             if upper_player_score == 5:
-                winner = "Left Player Wins"
+                winner = "Upper Player Wins"
                 is_updating = False
                 game_over = True
                 
             elif lower_player_score == 5:
-                winner = 'Right Player Wins'
+                winner = 'Lower Player Wins'
                 is_updating = False
                 game_over = True
-
-            #Reset game variables
-            if game_over == True:
-                ball.ball_rect.x, ball.ball_rect.y, lower_paddle.paddle_rect.x,lower_paddle.paddle_rect.y,upper_paddle.paddle_rect.x, upper_paddle.paddle_rect.y, upper_player_score, lower_player_score, game_over, winner = reset_game(ball, upper_paddle, lower_paddle, upper_player_score,lower_player_score)
-            
-            
-        draw_on_window(window, ball, upper_paddle, lower_paddle, upper_player_score, lower_player_score)
+                
+        #Reset game variables
+        if game_over == True and is_updating == True:
+                ball.ball_rect.x, ball.ball_rect.y, lower_paddle.paddle_rect.x,lower_paddle.paddle_rect.y,upper_paddle.paddle_rect.x, upper_paddle.paddle_rect.y, upper_player_score, lower_player_score, game_over, winner, time_to_display_winner = reset_game(ball, upper_paddle, lower_paddle, upper_player_score,lower_player_score, winner, time_to_display_winner)
+        
+        
+        draw_on_window(window, ball, upper_paddle, lower_paddle, upper_player_score, lower_player_score, is_updating, game_over, winner)
+        
         
 
 
