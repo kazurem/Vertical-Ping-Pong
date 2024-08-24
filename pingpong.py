@@ -16,10 +16,12 @@ fps = 60
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 
-ball_width = 20
-ball_height = 20
+
 ball_diameter = 20
-screen_middle = (screen_width//2-ball_width//2, screen_height//2 - ball_height//2)
+screen_middle = (screen_width//2-ball_diameter//2, screen_height//2 - ball_diameter//2)
+ball_img = pg.transform.scale(pg.image.load('./assets/ball/ball.png'), (ball_diameter, ball_diameter))
+
+
 
 paddle_width = 100
 paddle_height = 20
@@ -29,6 +31,7 @@ lower_paddle_ypos = 650
 
 lower_paddle_img = pg.transform.scale(pg.image.load('./assets/paddle/lower_paddle.png'), (paddle_width, paddle_height*4))
 upper_paddle_img = pg.transform.scale(pg.image.load('./assets/paddle/upper_paddle.png'), (paddle_width, paddle_height*4))
+
 
 
 upper_player_score = 0
@@ -129,15 +132,15 @@ def draw_on_window(window, ball: Ball, lower_paddle: Paddle, upper_paddle: Paddl
     window.blit(background_img, (0, 0))
     
     #Drawing the ball and paddles
-    # window.blit(ball.ball_surface, (ball.ball_rect.x, ball.ball_rect.y))
-    pg.draw.circle(window, WHITE, (ball.ball_rect.x+ball.ball_rect.width//2, ball.ball_rect.y+ball.ball_rect.height//2), ball_diameter//2)
+    window.blit(ball_img, (ball.ball_rect.x, ball.ball_rect.y))
+    
     #I subtracted 30 from the y position because that was making the image and the rect perfecty align with each other
     window.blit(lower_paddle.paddle_img, (lower_paddle.paddle_rect.x,lower_paddle.paddle_rect.y-30)) 
     window.blit(upper_paddle.paddle_img, (upper_paddle.paddle_rect.x,upper_paddle.paddle_rect.y-30))
 
     #Draw the middle line
     pg.draw.line(window, WHITE, (0, screen_height//2), (screen_width, screen_height//2))
-
+    
     
     player_left_score_text = upper_player_score_font.render(f"{upper_player_score}", 1, WHITE)
     player_right_score_text = lower_player_score_font.render(f"{lower_player_score}", 1, WHITE)
