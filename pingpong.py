@@ -1,6 +1,7 @@
 #Ping Pong Game
 import pygame as pg
 import time
+from icecream import ic
 
 pg.init()
 pg.font.init()
@@ -17,7 +18,7 @@ BLACK = (0,0,0)
 
 ball_width = 20
 ball_height = 20
-
+ball_diameter = 20
 screen_middle = (screen_width//2-ball_width//2, screen_height//2 - ball_height//2)
 
 paddle_width = 100
@@ -27,7 +28,7 @@ upper_paddle_ypos = 50
 lower_paddle_ypos = 650
 
 lower_paddle_img = pg.transform.scale(pg.image.load('./assets/paddle/lower_paddle.png'), (paddle_width, paddle_height*4))
-upper_paddle_img = pg.transform.scale(pg.image.load('./assets/paddle/upper_paddle.png'), (paddle_width, paddle_height*6))
+upper_paddle_img = pg.transform.scale(pg.image.load('./assets/paddle/upper_paddle.png'), (paddle_width, paddle_height*4))
 
 
 upper_player_score = 0
@@ -47,10 +48,7 @@ class Ball(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self)
         
         self.velocity = [velocity_x, velocity_y] # x and y velocities are the same
-        
-        self.ball_surface = pg.Surface((ball_width, ball_height))
-        self.ball_surface.fill(WHITE)
-        self.ball_rect = self.ball_surface.get_rect(topleft=(x, y))
+        self.ball_rect = pg.Rect(x, y, ball_diameter, ball_diameter)
         
         
     def update(self, upper_player_score: int, lower_player_score: int):
@@ -95,7 +93,8 @@ class Paddle(pg.sprite.Sprite):
             self.paddle_img = upper_paddle_img
         elif self.identity == 'lower':
             self.paddle_img = lower_paddle_img
-        self.paddle_rect = self.paddle_img.get_rect(topleft=(x, y))
+            
+        self.paddle_rect = pg.Rect(x, y, paddle_width, paddle_height)
         
         
     def update(self, key_pressed, ball: Ball):
@@ -124,15 +123,17 @@ class Paddle(pg.sprite.Sprite):
             
             
 
-def draw_on_window(window, ball: Ball, paddle_left: Paddle, paddle_right: Paddle, upper_player_score: int, lower_player_score: int, winner=None,time_sleep=0):
+def draw_on_window(window, ball: Ball, lower_paddle: Paddle, upper_paddle: Paddle, upper_player_score: int, lower_player_score: int, winner=None,time_sleep=0):
     
     #To refresh the display each loop
     window.blit(background_img, (0, 0))
     
     #Drawing the ball and paddles
-    window.blit(ball.ball_surface, (ball.ball_rect.x, ball.ball_rect.y))
-    window.blit(paddle_left.paddle_img, (paddle_left.paddle_rect.x,paddle_left.paddle_rect.y))
-    window.blit(paddle_right.paddle_img, (paddle_right.paddle_rect.x,paddle_right.paddle_rect.y))
+    # window.blit(ball.ball_surface, (ball.ball_rect.x, ball.ball_rect.y))
+    pg.draw.circle(window, WHITE, (ball.ball_rect.x+ball.ball_rect.width//2, ball.ball_rect.y+ball.ball_rect.height//2), ball_diameter//2)
+    #I subtracted 30 from the y position because that was making the image and the rect perfecty align with each other
+    window.blit(lower_paddle.paddle_img, (lower_paddle.paddle_rect.x,lower_paddle.paddle_rect.y-30)) 
+    window.blit(upper_paddle.paddle_img, (upper_paddle.paddle_rect.x,upper_paddle.paddle_rect.y-30))
 
     #Draw the middle line
     pg.draw.line(window, WHITE, (0, screen_height//2), (screen_width, screen_height//2))
@@ -203,6 +204,7 @@ def main(upper_player_score, lower_player_score):
      
         
         if is_updating == True and game_over == False:
+            
             key_pressed = pg.key.get_pressed()
             
             upper_paddle.update(key_pressed, ball)

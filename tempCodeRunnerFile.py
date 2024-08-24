@@ -1,0 +1,1 @@
+paddle_height*6)
