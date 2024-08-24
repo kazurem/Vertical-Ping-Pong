@@ -122,11 +122,17 @@ class Paddle(pg.sprite.Sprite):
         elif key_pressed[pg.K_RIGHT] and self.paddle_rect.right < screen_width and self.identity == 'lower':
             self.paddle_rect.x += self.velocity
             
-            
+
         #Collision of ball with the paddle
-        if self.paddle_rect.colliderect(ball.ball_rect):
+        if self.paddle_rect.colliderect(ball.ball_rect) and self.identity == 'upper'\
+        and ball.ball_rect.top - ball.velocity[1] >= self.paddle_rect.bottom:
             ball.velocity[1] = -ball.velocity[1]
-            
+                         
+        if self.paddle_rect.colliderect(ball.ball_rect) and self.identity == 'lower'\
+        and ball.ball_rect.bottom + ball.velocity[1] >= self.paddle_rect.top:
+            ball.velocity[1] = -ball.velocity[1]
+        
+                
 
             
             
@@ -158,11 +164,11 @@ def draw_on_window(window, ball: Ball, lower_paddle: Paddle, upper_paddle: Paddl
         instructions_text = instructions_font.render("Press 'Enter' to start the game.", 1, WHITE)
         window.blit(instructions_text, (screen_width//2-instructions_text.get_width()//2, screen_height//2-instructions_text.get_width()//2))
         
+    #displaying winner
     if is_updating == False and game_over == True:
         winner_text = winner_font.render(f"{winner} Wins!", 1, WHITE)
         window.blit(winner_text, (screen_width//2 - winner_text.get_width()//2, screen_height//2 - winner_text.get_height()//2))
-        pg.display.update()
-    
+
     
     pg.display.update()
     
@@ -197,7 +203,7 @@ def display_winner(winner):
 def main(upper_player_score, lower_player_score):
 
     #Making ball and paddle instances
-    ball = Ball(screen_middle[0], screen_middle[1], 5)
+    ball = Ball(screen_middle[0], screen_middle[1], velocity_x=-5, velocity_y=-5)
     upper_paddle = Paddle(x=paddle_xpos, y=upper_paddle_ypos, velocity=10, identity='upper')
     lower_paddle = Paddle(x=paddle_xpos, y=lower_paddle_ypos, velocity=10, identity='lower')
     time_to_display_winner = 120
