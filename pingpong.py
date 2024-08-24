@@ -27,7 +27,7 @@ upper_paddle_ypos = 50
 lower_paddle_ypos = 650
 
 lower_paddle_img = pg.transform.scale(pg.image.load('./assets/paddle/lower_paddle.png'), (paddle_width, paddle_height*4))
-upper_paddle_img = pg.transform.scale(pg.image.load('./assets/paddle/upper_paddle.png'), (paddle_width, paddle_height*4))
+upper_paddle_img = pg.transform.scale(pg.image.load('./assets/paddle/upper_paddle.png'), (paddle_width, paddle_height*6))
 
 
 upper_player_score = 0
