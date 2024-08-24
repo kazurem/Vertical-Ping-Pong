@@ -2,6 +2,7 @@ import pygame as pg
 
 pg.init()
 pg.font.init()
+pg.mixer.init()
 
 # screen variables
 screen_width = 800
@@ -21,7 +22,8 @@ screen_middle = (
     screen_height // 2 - ball_diameter // 2,
 )
 ball_img = pg.transform.scale(
-    pg.image.load("./assets/ball/ball.png"), (ball_diameter, ball_diameter)
+    pg.image.load("./assets/sprite-assets/ball/ball.png"),
+    (ball_diameter, ball_diameter),
 )
 
 
@@ -34,10 +36,12 @@ lower_paddle_ypos = 650
 
 # Importing paddle assets
 lower_paddle_img = pg.transform.scale(
-    pg.image.load("./assets/paddle/lower_paddle.png"), (paddle_width, paddle_height * 4)
+    pg.image.load("./assets/sprite-assets/paddle/lower_paddle.png"),
+    (paddle_width, paddle_height * 4),
 )
 upper_paddle_img = pg.transform.scale(
-    pg.image.load("./assets/paddle/upper_paddle.png"), (paddle_width, paddle_height * 4)
+    pg.image.load("./assets/sprite-assets/paddle/upper_paddle.png"),
+    (paddle_width, paddle_height * 4),
 )
 
 
@@ -52,3 +56,5 @@ winner_font = pg.font.SysFont("comicsans", 70)
 instructions_font = pg.font.SysFont("comicsans", 50)
 
 background_img = pg.image.load("./assets/background/Space Background.png")
+
+collision_sound = pg.mixer.Sound("./assets/sound-assets/collision.mp3")

@@ -2,6 +2,7 @@ import pygame as pg
 from variables import paddle_height, paddle_width
 from variables import upper_paddle_img, lower_paddle_img
 from variables import screen_height, screen_width
+from variables import collision_sound
 
 pg.init()
 pg.font.init()
@@ -61,6 +62,7 @@ class Paddle(pg.sprite.Sprite):
             and ball.ball_rect.top - ball.velocity[1] >= self.paddle_rect.bottom
         ):
             ball.velocity[1] = -ball.velocity[1]
+            collision_sound.play()
 
         if (
             self.paddle_rect.colliderect(ball.ball_rect)
@@ -68,3 +70,4 @@ class Paddle(pg.sprite.Sprite):
             and ball.ball_rect.bottom + ball.velocity[1] >= self.paddle_rect.top
         ):
             ball.velocity[1] = -ball.velocity[1]
+            collision_sound.play()
