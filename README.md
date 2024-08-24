@@ -17,4 +17,5 @@ Objectives:
     2. the paddles are going to be somekind of spaceships
     3. Add a space background(Done)
 7. If you have free time, add some audio too.
+8. Teach a neural network to play this game.
 
