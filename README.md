@@ -2,7 +2,7 @@
 My first ever repository!!  
 (this will be my attempt at getting better at making games)
 
-Description: Creating a Modified version of the classic Ping Pong Game
+Description: Creating a version of the classic Ping Pong Game in which the paddles are at the top an bottom of the window.
 
 How to play?  
 -press Enter to start the game.  
