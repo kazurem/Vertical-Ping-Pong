@@ -50,10 +50,10 @@ def draw_on_window(
         (upper_paddle.paddle_rect.x, upper_paddle.paddle_rect.y - 30),
     )
 
-    # Draw the middle line
-    pg.draw.line(
-        window, WHITE, (0, screen_height // 2), (screen_width, screen_height // 2)
-    )
+    # # Draw the middle line
+    # pg.draw.line(
+    #     window, WHITE, (0, screen_height // 2), (screen_width, screen_height // 2)
+    # )
 
     # Displaying the player scores on the window
     player_left_score_text = upper_player_score_font.render(
@@ -148,9 +148,9 @@ def display_winner(winner):
 def main(upper_player_score, lower_player_score):
 
     # Making ball and paddle instances
-    ball = Ball(screen_middle[0], screen_middle[1], velocity_x=-5, velocity_y=-5)
+    ball = Ball(screen_middle[0], screen_middle[1], velocity_x=8, velocity_y=8)
     upper_paddle = Paddle(
-        x=paddle_xpos, y=upper_paddle_ypos, velocity=10, identity="upper"
+        x=paddle_xpos, y=upper_paddle_ypos, velocity=15, identity="upper"
     )
     lower_paddle = Paddle(
         x=paddle_xpos, y=lower_paddle_ypos, velocity=10, identity="lower"
