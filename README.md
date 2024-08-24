@@ -3,10 +3,10 @@ My first ever repository!!
 
 Description: Creating a Modified version of the classic Ping Pong Game
 
-How to play?
--press Enter to start the game
--"A" and "D" keys are used to move the upper paddle.
--Left and right arrow keys are used to move the lower paddle.
+How to play?  
+-press Enter to start the game.  
+-"A" and "D" keys are used to move the upper paddle.  
+-Left and right arrow keys are used to move the lower paddle.  
 
 
 How to run?: 
