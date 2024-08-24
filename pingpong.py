@@ -16,10 +16,8 @@ fps = 60
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 
-ball_width = 20
-ball_height = 20
 ball_diameter = 20
-screen_middle = (screen_width//2-ball_width//2, screen_height//2 - ball_height//2)
+screen_middle = (screen_width//2-ball_diameter//2, screen_height//2 - ball_diameter//2)
 
 paddle_width = 100
 paddle_height = 20
