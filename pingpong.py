@@ -50,10 +50,6 @@ def draw_on_window(
         (upper_paddle.paddle_rect.x, upper_paddle.paddle_rect.y - 30),
     )
 
-    # # Draw the middle line
-    # pg.draw.line(
-    #     window, WHITE, (0, screen_height // 2), (screen_width, screen_height // 2)
-    # )
 
     # Displaying the player scores on the window
     player_left_score_text = upper_player_score_font.render(
