@@ -60,7 +60,7 @@ def draw_on_window(
     )
 
     window.blit(player_left_score_text, (20, 20))
-    window.blit(player_right_score_text, (20, 680))
+    window.blit(player_right_score_text, (20, 650))
 
     # displaying instructions
     if is_updating == False:
@@ -71,7 +71,7 @@ def draw_on_window(
             instructions_text,
             (
                 screen_width // 2 - instructions_text.get_width() // 2,
-                screen_height // 2 - instructions_text.get_width() // 2,
+                instructions_text.get_height(),
             ),
         )
 
@@ -135,7 +135,7 @@ def display_winner(winner):
         winner_text,
         (
             screen_width // 2 - winner_text.get_width() // 2,
-            screen_height // 2 - winner_text.get_height() // 2,
+            winner_text.get_height(),
         ),
     )
     pg.display.update()
@@ -188,12 +188,12 @@ def main(upper_player_score, lower_player_score):
 
             # Win conditions
             if upper_player_score == 5:
-                winner = "Upper Player Wins"
+                winner = "Upper Player"
                 is_updating = False
                 game_over = True
 
             elif lower_player_score == 5:
-                winner = "Lower Player Wins"
+                winner = "Lower Player"
                 is_updating = False
                 game_over = True
 

@@ -56,18 +56,24 @@ class Paddle(pg.sprite.Sprite):
             self.paddle_rect.x += self.velocity
 
         # Collision of ball with the paddle
+        ball.ball_rect.y -= 8
         if (
             self.paddle_rect.colliderect(ball.ball_rect)
             and self.identity == "upper"
-            and ball.ball_rect.top - ball.velocity[1] >= self.paddle_rect.bottom
+            # and ball.ball_rect.top - ball.velocity[1] >= self.paddle_rect.bottom
         ):
+            ball.ball_rect.y += 5
             ball.velocity[1] = -ball.velocity[1]
             collision_sound.play()
 
+        ball.ball_rect.y += 8
         if (
             self.paddle_rect.colliderect(ball.ball_rect)
             and self.identity == "lower"
-            and ball.ball_rect.bottom + ball.velocity[1] >= self.paddle_rect.top
+            # and ball.ball_rect.bottom + ball.velocity[1] >= self.paddle_rect.top
         ):
+            ball.ball_rect.y -= 8
             ball.velocity[1] = -ball.velocity[1]
             collision_sound.play()
+
+        
