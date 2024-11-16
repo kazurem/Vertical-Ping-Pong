@@ -10,7 +10,7 @@ How to play?
 -Left and right arrow keys are used to move the lower paddle.  
 
 
-How to run?: 
+
 0. Prerequisite: Install the pygame library
 ```
 pip install pygame
