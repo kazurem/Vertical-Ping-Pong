@@ -11,5 +11,21 @@ How to play?
 
 
 How to run?: 
-I don't think I need to tell you how to do this. Do I?
+0. Prerequisite: Install the pygame library
+```
+pip install pygame
+```
+1. clone the repository.
+```
+git clone https://github.com/AuroraChasma/Vertical-Ping-Pong.git
+```
+2. Change into the ping pong directory
+```
+cd Vertical-Ping-Pong
+```
+3. Run the following command
+```
+python ./src/pingpong.py
+```
+
 
