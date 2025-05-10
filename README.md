@@ -3,8 +3,9 @@ My first ever repository!!
 (this will be my attempt at getting better at making games)
 
 Description: Creating a version of the classic Ping Pong Game in which the paddles are at the top and bottom of the window.
+![game-pic](./assets/game-pic.png)
 
-How to play?  
+## How to play?  
 -press Enter to start the game.  
 -"A" and "D" keys are used to move the upper paddle.  
 -Left and right arrow keys are used to move the lower paddle.  
