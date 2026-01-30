@@ -41,4 +41,6 @@ pip install pygame
 python ./src/pingpong.py
 ```
 
+## Acknowledgements
+Thanks to [Deep-Fold](https://deep-fold.itch.io/) for his wonderful app [Space Background Generator](https://deep-fold.itch.io/space-background-generator) which I used to make the space backgroud for the app.
 
